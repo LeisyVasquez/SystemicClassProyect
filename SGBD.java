@@ -32,6 +32,8 @@ public class SGBD {
             phone = Integer.parseInt(sc.nextLine());
             clients[i] = new Client(name, password, phone); 
         }  
+        
+
     }
 
     //Método para crear proveedores

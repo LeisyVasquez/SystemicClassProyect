@@ -13,44 +13,40 @@ public class ClassMain{
 
     //Método para iniciar sesión
     static void login(){
-        String flagOne = ""; //Iniciar sesión
         int flagTwo = 0;  //Tipo de usuario
         String nameUser = ""; 
         String passwordUser = ""; 
         clearConsole();
         System.out.println("-----Bienvenido a SEIRC-----"); 
-        System.out.print("¿Desea iniciar sesión? (S/N): "); 
-        flagOne = sc.nextLine(); 
-        if(flagOne.equalsIgnoreCase("S")){
-            System.out.println("Elija con que tipo de usuario desea iniciar sesión");
-            System.out.println("1. Cliente");
-            System.out.println("2. Proveedor");
-            System.out.println("3. Sistema Gestor de base de datos");
-            System.out.println("4. Cancelar");
-            flagTwo = Integer.parseInt(sc.nextLine());
-            if(flagTwo != 4){
-                System.out.print("\nNombre del usuario: ");
-                nameUser = sc.nextLine(); 
-                System.out.print("Contraseña: "); 
-                passwordUser = sc.nextLine(); 
-            }
+        System.out.println("Elija con que tipo de usuario desea iniciar sesión");
+        System.out.println("1. Cliente");
+        System.out.println("2. Proveedor");
+        System.out.println("3. Sistema Gestor de base de datos");
+        System.out.println("4. Salir");
+        flagTwo = Integer.parseInt(sc.nextLine());                             
+        if(flagTwo != 4){
+            System.out.print("\nNombre del usuario: ");
+            nameUser = sc.nextLine(); 
+            System.out.print("Contraseña: "); 
+            passwordUser = sc.nextLine(); 
+        } 
             
-            switch(flagTwo){
-                case 1:
-                    if(SGBD != null){
-                        for(int i = 0; (SGBD.clients.length); i++){
-                            if((SGBD.clients[i].name).equals(nameUser)){
-                                if((SGBD.clients[i].password).equals(passwordUser)){
-                                    loginClient(SGBD.clients[i]); 
-                                }
+        switch(flagTwo){
+            case 1:
+                if(SGBD.clients != null){
+                    for(int i = 0; i < SGBD.clients.length; i++){
+                        if((SGBD.clients[i].name).equals(nameUser)){
+                            if((SGBD.clients[i].password).equals(passwordUser)){
+                                loginClient(SGBD.clients[i]);
+                                break; 
                             }
-
                         }
+                    }
+                    System.out.println("Los datos son incorrectos o no está registrado en SEIRC, intenté de nuevo o regrese más tarde"); 
                     } else 
                         System.out.println("Todavía no pueden iniciar sesión los clientes"); 
-
-                    
                     break; 
+
                 case 2: 
                     System.out.println("Inicio sesión con el proveedor");
                     break; 
@@ -58,21 +54,37 @@ public class ClassMain{
                 case 3: 
                     if((nameUser.equals("SEIRC")) && (passwordUser.equals("1"))){
                         clearConsole();
-                        loginSGBD();
-                    } else 
-                        System.err.println("Credenciales incorrectas, revise de nuevo sus datos"); 
+                        boolean res = loginSGBD();
+                        while(!res){
+                            res = loginSGBD();
+                        }
+                        System.out.println("\nRegrese pronto, SEIRC te espera :)");
+                        login();
+
+                        
+                        
+                login();
+                    } else {
+                        System.err.println("Credenciales incorrectas, revise de nuevo sus datos.");
+                        System.out.println("¿Desea reintentar? (S/N)"); 
+                        if((sc.nextLine()).equalsIgnoreCase("S")){
+                            login(); 
+                        } else 
+                            System.out.println("Regrese pronto, SEIRC te espera :)\n");
+                    } 
+                        
                     break; 
                 case 4: 
                     System.out.println("Regrese pronto, SEIRC te espera :)\n");
                     break; 
             }
-        } else 
-            System.out.println("Regrese pronto, SEIRC te espera :)\n");
+       
     }
 
     //Acciones del SGBD
-    static void loginSGBD(){
-        int flagOne = 0;        
+    static boolean loginSGBD(){
+        int flagOne = 0;   
+        clearConsole();     
         System.out.println("****Ingresó como SEIRC****"); 
         System.out.println("\nElija la acción que desea realizar"); 
         System.out.println("1.Crear cliente"); 
@@ -103,10 +115,9 @@ public class ClassMain{
                 SGBD.deleteVideoTutorial();
                 break; 
             case 7: 
-                System.out.println("Regrese pronto, SEIRC te espera :)");
-                login();
-                break;
+                return true;
         }
+        return false;
     }
 
     //Acciones del cliente
@@ -119,32 +130,45 @@ public class ClassMain{
         System.out.println("3.Prestar canastas");
         System.out.println("4.Devolver canastas");
         System.out.println("5.Ver los préstamos y devoluciones realizados");
-        System.out.println("6.Cerrar sesión");
+        System.out.println("6.Ver consolidados");
+        System.out.println("7.Cerrar sesión");
         flag = Integer.parseInt(sc.nextLine()); 
         switch(flag){
             case 1: 
                 System.out.println(clientUser.toString()); 
                 break;
             case 2: 
-                System.out.println("Ver video tutorial"); 
+                clearConsole();
+                System.out.println("****Usuario " + clientUser.name + "****\n"); 
+                System.out.println("-Vídeo tuturial");
+                SGBD.videoTutorial1.toString(); 
                 break;
             case 3:
-                String nameBasket = ""; 
-                int quantityBasket = 0; 
-                System.out.println("****Usuario " + clientUser.name + "****"); 
-                System.out.println("\n--Préstamo de canastas--"); 
-                System.out.println("Nombre de la canasta a prestar: "); 
-                nameBasket = sc.nextLine(); 
-                System.out.println("Cantidad a prestar: "); 
-                quantityBasket = Integer.parseInt(sc.nextLine()); 
-                clientUser.loanBasket(nameBasket, quantityBasket);
-                System.out.println("Transacción terminada"); 
+                System.out.println("****Usuario " + clientUser.name + "****\n"); 
+                System.out.println("--Préstamo de canastas--"); 
+                clientUser.loanBasket();
                 break; 
             case 4: 
+                System.out.println("****Usuario " + clientUser.name + "****\n"); 
+                System.out.println("--Devolución de canastas--"); 
+                clientUser.returnBasket();
                 break; 
             case 5: 
+                System.out.println("****Usuario " + clientUser.name + "****\n"); 
+                System.out.println("--Préstamos y devoluciones realizados--");
+                for(int i = 0; i < clientUser.ordersClient.length; i++){
+                    System.out.println("\nOrden "+ (i+1));
+                    System.out.println("Tipo de movimiento: " + clientUser.ordersClient[i].typeMovement); 
+                    System.out.println("Fecha " + clientUser.ordersClient[i].dateAndHour); 
+                    System.out.println("Nombre de la canasta: " + clientUser.ordersClient[i].nameBasket); 
+                    System.out.println("Cantidad de la canasta: " + clientUser.ordersClient[i].quantityBasket); 
+                } 
                 break; 
-            case 6: 
+            case 7:
+                System.out.println("****Usuario " + clientUser.name + "****\n"); 
+                System.out.println("Total canastas prestadas: " + clientUser.totalLoans); 
+                System.out.println("Total canastas devueltas: " + clientUser.totalReturns);
+                System.out.println("Canastas que debe en estos momentos: " + clientUser.totalReturns);
                 break; 
         }
     }
