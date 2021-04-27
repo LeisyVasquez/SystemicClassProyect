@@ -11,10 +11,11 @@ public class Order {
         this.quantityBasket = quantityBasket;
     }
 
-    public void toString(){
+    public String toString(){
         System.out.println("Tipo de movimiento: " + typeMovement); 
         System.out.println("Fecha y hora: " + dateAndHour); 
         System.out.println("Nombre de la canastilla: " + nameBasket); 
         System.out.println("Cantidad canastilla: " + quantityBasket); 
+        return "Holi";
     }
 }

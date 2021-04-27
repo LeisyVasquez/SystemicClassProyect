@@ -11,11 +11,8 @@ public class VideoTutorial {
         this.quality = quality; 
     }
     
-    public void toString(){
-        System.out.println("Título: " + this.title); 
-        System.out.println("Descripción: " + this.description); 
-        System.out.println("Duración: " + this.duration); 
-        System.out.println("Calidad: " + this.quality); 
+    public String toString(){
+        return "Título: " + this.title + "\nDescripción: " + this.description + "\nDuración: " + this.duration + "\nCalidad: " + this.quality;
     }
 
     public void pauseVideo(){
@@ -28,7 +25,7 @@ public class VideoTutorial {
 
     public void playVideo(){
         System.out.println("---Vídeo reproduciendo---");
-        this.toString(); 
+        //this.toString(); 
     } 
 
     public void forwardVideo(){

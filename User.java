@@ -9,9 +9,7 @@ public class User {
         this.phone = phone; 
     }
 
-    public void toString(){
-        System.out.println("Nombre de usuario: " + name);
-        System.out.println("Contraseña: *****"); 
-        System.out.println("Teléfono: " + phone);
+    public String toString(){
+        return "Nombre de usuario: " + name + "\nContraseña: *****\nTeléfono: " + phone;
     }
 }
