@@ -23,10 +23,7 @@ public class User {
             if(ordersUser[i] != null){
                 flag = true;
                 System.out.println("Orden "+ (i+1));
-                System.out.println("*Tipo de movimiento: " + ordersUser[i].typeMovement); 
-                System.out.println("*Fecha " + ordersUser[i].dateAndHour); 
-                System.out.println("*Nombre de la canasta: " + ordersUser[i].nameBasket); 
-                System.out.println("*Cantidad de la canasta: " + ordersUser[i].quantityBasket + "\n");     
+                System.out.println(ordersUser[i].toString() + "\n");     
 
             }
         }

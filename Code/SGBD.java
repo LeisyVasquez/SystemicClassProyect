@@ -116,18 +116,16 @@ public class SGBD {
     //Método para eliminar clientes
     public void deleteClient(){
         String nameClientDelete; 
+        clearConsole();
         if(clients != null){
             boolean flagOne = false; //Validar si existe el usuario que desea eliminar
-            clearConsole();
             System.out.println("****Usuario SEIRC****"); 
             System.out.println("---Eliminar clientes---");        
             System.out.print("\n\nNombre del cliente que desea eliminar: "); 
             nameClientDelete = sc.nextLine(); 
             for(int i = 0; i < clients.length; i++){    
                 String flagTwo = ""; //Confirmación para eliminar el cliente
-                if(clients[i] == null){
-                    flagOne = false;
-                } else if ((clients[i].name).equals(nameClientDelete)){
+                if ((clients[i] != null) && (clients[i].name).equals(nameClientDelete)){
                     flagOne = true;
                     System.out.println("\n~~Información del cliente a eliminar~~"); 
                     System.out.println("Nombre: " + clients[i].name); 
@@ -151,18 +149,16 @@ public class SGBD {
     //Método para eliminar proveedores
     public void deleteProvider(){
         String nameProviderDelete; 
+        clearConsole();
         if(providers != null){
             boolean flagOne = false; //Validar si existe el usuario que desea eliminar
-            clearConsole();
             System.out.println("****Usuario SEIRC****"); 
             System.out.println("---Eliminar proveedores---");        
             System.out.print("\n\nNombre del proveedor que desea eliminar: "); 
             nameProviderDelete = sc.nextLine(); 
             for(int i = 0; i < providers.length; i++){    
                 String flagTwo = ""; //Confirmación para eliminar el proveedor
-                if(providers[i] == null){
-                    flagOne = false;
-                } else if ((providers[i].name).equals(nameProviderDelete)){
+                if ((providers[i] != null) && (providers[i].name).equals(nameProviderDelete)){
                     flagOne = true;
                     System.out.println("\n~~Información del proveedor a eliminar~~"); 
                     System.out.println("Nombre: " + providers[i].name); 

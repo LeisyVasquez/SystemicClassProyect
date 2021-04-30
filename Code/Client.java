@@ -22,7 +22,7 @@ public class Client extends User {
             LocalTime time = LocalTime.now();
             String hour = String.valueOf(time.getHour());
             String minute = String.valueOf(time.getMinute());
-            date = dateOne + " *Hora: "+ hour + ":" + minute;
+            date = dateOne + " \n*Hora: "+ hour + ":" + minute;
 
             String nameBasket = ""; 
             int quantityBasket = 0; 
@@ -48,7 +48,7 @@ public class Client extends User {
             LocalTime time = LocalTime.now();
             String hour = String.valueOf(time.getHour());
             String minute = String.valueOf(time.getMinute());
-            date = dateOne + " *Hora: "+ hour + ":" + minute;
+            date = dateOne + " *\nHora: "+ hour + ":" + minute;
 
             String nameBasket = ""; 
             int quantityBasket = 0; 

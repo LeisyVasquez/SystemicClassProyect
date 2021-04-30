@@ -1,9 +1,8 @@
 import java.util.Scanner;
 
-public class ClassMain{
+public class ClassMain {
     static Scanner sc = new Scanner(System.in);
     static SGBD SGBD = new SGBD(); 
-
 
     //Método para limpiar la consola
     static void clearConsole(){
@@ -11,14 +10,12 @@ public class ClassMain{
         System.out.flush();
     }
 
-
     //Método para salir de la aplicación o regresar al menú
     static boolean exitApplicationOrReturnMenu(){
         System.out.print("Regresar al menú (S/N): ");
         if(sc.nextLine().equalsIgnoreCase("S")) return false;
         else return true;
     }
-
 
     //Método para iniciar sesión
     static void login(){
@@ -52,7 +49,7 @@ public class ClassMain{
                     //Si hay clientes registrados se recorren con el for
                     for(int i = 0; i < SGBD.clients.length; i++){
                         //Si el nombre de usuario es igual al que está registrado
-                        if((SGBD.clients[i].name).equals(nameUser)){
+                        if((SGBD.clients[i] != null) && ((SGBD.clients[i].name).equals(nameUser))){
                             //Se dice que el cliente que va a iniciar seción si existe
                             flagOne = true;
                             //Se verifica que el la contraseña se sea correcta
@@ -92,7 +89,7 @@ public class ClassMain{
                 if(SGBD.providers != null){
                     boolean flagOne = false; //Valida si existe el proveedor que desea iniciar sesión
                     for(int i = 0; i < SGBD.providers.length; i++){
-                        if((SGBD.providers[i].name).equals(nameUser)){
+                        if((SGBD.providers[i] != null) && (SGBD.providers[i].name).equals(nameUser)){
                             flagOne = true;
                             if((SGBD.providers[i].password).equals(passwordUser)){
                                 boolean res = loginProvider(SGBD.providers[i]);
@@ -122,7 +119,7 @@ public class ClassMain{
 
             //Iniciar sesión como Gestor de base de datos.
             case 3: 
-                if((nameUser.equals("SEIRC")) && (passwordUser.equals("1"))){
+                if((nameUser.equals("SEIRC")) && (passwordUser.equals("123456789"))){
                     clearConsole();
                     boolean res = loginSGBD();
                     while(!res) res = loginSGBD();
@@ -188,8 +185,8 @@ public class ClassMain{
         int flag = 0; //Se utiliza para el switch       
         clearConsole();
         System.out.println("****Usuario " + clientUser.name + "****"); 
-        System.out.println("---Menú de opciones---");    
-        System.out.println("\n\nElija la acción que desea realizar"); 
+        System.out.println("---Menú de opciones---\n\n");    
+        System.out.println("Elija la acción que desea realizar"); 
         System.out.println("1.Ver información de su usuario en SEIRC"); 
         System.out.println("2.Ver video tutorial"); 
         System.out.println("3.Prestar canastas");
@@ -202,13 +199,13 @@ public class ClassMain{
         System.out.println("****Usuario " + clientUser.name + "****"); 
         switch(flag){
             case 1: 
-                System.out.println("---Ver información de usuario---");   
-                System.out.println("\n\n"+clientUser.toString()); 
+                System.out.println("---Ver información de usuario---\n\n");   
+                System.out.println(clientUser.toString()); 
                 System.out.println("Tipo de usuario: Cliente \n");
                 return exitApplicationOrReturnMenu(); 
             case 2: 
-                System.out.println("---Ver vídeo tutorial---");
-                System.out.println("\n\n"+SGBD.videoTutorial1.toString()+"\n"); 
+                System.out.println("---Ver vídeo tutorial---\n\n");
+                System.out.println(SGBD.videoTutorial1.toString()+"\n"); 
                 return exitApplicationOrReturnMenu(); 
             case 3:
                 System.out.println("---Préstamo de canastas---\n"); 
@@ -232,6 +229,7 @@ public class ClassMain{
         return false; 
     }
 
+    //Acciones del proveedor
     static boolean loginProvider(Provider providerUser){
         int flag = 0;        
         clearConsole();
@@ -239,23 +237,23 @@ public class ClassMain{
         System.out.println("---Menú de opciones---\n\n");    
         System.out.println("Elija la acción que desea realizar"); 
         System.out.println("1.Ver información de su usuario en SEIRC"); 
-        System.out.println("2.Ver video tutorial"); 
+        System.out.println("2.Ver vídeo tutorial"); 
         System.out.println("3.Prestar canastas");
         System.out.println("4.Ver los préstamos realizados");
         System.out.println("5.Ver consolidados");
         System.out.println("6.Cerrar sesión");
         flag = Integer.parseInt(sc.nextLine()); 
         clearConsole();
-        System.out.println("****Usuario " + providerUser.name + "****\n"); 
+        System.out.println("****Usuario " + providerUser.name + "****"); 
         switch(flag){
             case 1: 
-                System.out.println("---Ver información de usuario---");   
-                System.out.println("\n\n"+providerUser.toString()); 
-                System.out.println("Tipo de usuario: Provedor \n");
+                System.out.println("---Ver información de usuario---\n\n");   
+                System.out.println(providerUser.toString()); 
+                System.out.println("Tipo de usuario: Proveedor \n");
                 return exitApplicationOrReturnMenu(); 
             case 2:
-                System.out.println("---Ver vídeo tutorial---");
-                System.out.println("\n\n"+SGBD.videoTutorial2.toString()+"\n"); 
+                System.out.println("---Ver vídeo tutorial---\n\n");
+                System.out.println(SGBD.videoTutorial2.toString()+"\n"); 
                 return exitApplicationOrReturnMenu(); 
             case 3:
                 System.out.println("---Préstamo de canastas---\n"); 
@@ -263,10 +261,11 @@ public class ClassMain{
                 return exitApplicationOrReturnMenu(); 
             case 4: 
                 System.out.println("---Préstamos realizados a la empresa---\n\n");
+                providerUser.seeMovements(); 
                 return exitApplicationOrReturnMenu(); 
             case 5:
                 System.out.println("---Consolidado---\n\n"); 
-                System.out.println("Total canastas prestadas: " + providerUser.totalLoans); 
+                providerUser.seeConsolidates();
                 return exitApplicationOrReturnMenu(); 
             case 6:
                 return true; 
@@ -274,6 +273,7 @@ public class ClassMain{
         return false; 
     }
 
+    //Método principal del proyecto 
     public static void main(String [] args){
         login(); 
     }
